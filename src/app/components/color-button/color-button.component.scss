@@ -1,0 +1,20 @@
+
+.color:nth-child(4n + 2) { /* this will do the trick*/
+  grid-row:1; /* we make 2 in the first row and 3 will be pushed to second row */
+}
+.color {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 2px 2px 8px #00000022;
+  cursor: pointer;
+}
+.color:hover {
+  outline: 2px solid grey;
+  outline-offset: 2px;
+}
+.color:active {
+  outline: 2px solid grey;
+  outline-offset: 2px;
+}
