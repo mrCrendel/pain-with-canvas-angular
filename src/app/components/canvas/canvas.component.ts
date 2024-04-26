@@ -1,7 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {Figure, ToolsModel} from "../../store/tools/tools.model";
 import {getColor, getFigure} from "../../store/tools/tools.selectors";
+import {getDrawFunction} from "../../common/figures";
 
 export type Coordinates = { x: number; y: number };
 @Component({
@@ -23,10 +24,6 @@ export class CanvasComponent implements OnInit{
 
   ngOnInit() {
     this.initCanvas()
-
-    this.canvas.addEventListener('mousedown', this.dragStart.bind(this), false);
-    this.canvas.addEventListener('mousemove', this.drag.bind(this), false);
-    this.canvas.addEventListener('mouseup', this.dragStop.bind(this), false);
 
     this.store.select(getFigure).subscribe(res => {
       this.figure = res;
@@ -68,12 +65,15 @@ export class CanvasComponent implements OnInit{
 
     return {x: x, y: y};
   }
+
+  @HostListener('mousedown', ['$event'])
   dragStart(event: MouseEvent) {
     this.dragging = true;
     this.dragStartLocation = this.getCanvasCoordinates(event);
     this.takeSnapShot();
   }
 
+  @HostListener('mousemove', ['$event'])
   drag(event: MouseEvent) {
     let position;
     if (this.dragging) {
@@ -83,6 +83,7 @@ export class CanvasComponent implements OnInit{
     }
   }
 
+  @HostListener('mouseup', ['$event'])
   dragStop(event: MouseEvent) {
     this.dragging = false;
     this.restoreSnapShot();
@@ -92,16 +93,16 @@ export class CanvasComponent implements OnInit{
 
   draw(position: Coordinates) {
     this.context.lineCap = "round";
-    this.figure.draw({
-      position: position,
-      dragStartLocation: this.dragStartLocation,
-      context: this.context
-    })
-    // getDrawFunction(this.figure.index)({
+    // this.figure.draw({
     //   position: position,
     //   dragStartLocation: this.dragStartLocation,
     //   context: this.context
     // })
+    getDrawFunction(this.figure.index)({
+      position: position,
+      dragStartLocation: this.dragStartLocation,
+      context: this.context
+    })
 
     this.context.globalCompositeOperation = "source-over";
 
