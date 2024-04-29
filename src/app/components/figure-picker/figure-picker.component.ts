@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { figures } from "../../common/figures";
+import { figuresArray } from "../../common/figures";
 
 
 @Component({
@@ -8,5 +8,5 @@ import { figures } from "../../common/figures";
   styleUrls: ['./figure-picker.component.scss']
 })
 export class FigurePickerComponent {
-  figures = figures
+  figures = figuresArray
 }

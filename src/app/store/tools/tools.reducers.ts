@@ -1,21 +1,22 @@
 import { createReducer,on } from "@ngrx/store";
 import { ToolsState } from "./tools.state";
-import {selectColor, selectFigure} from "./tools.actions";
-import {figures} from "../../common/figures";
+import {setColor, setFigure} from "./tools.actions";
+import {figures, figuresArray} from "../../common/figures";
 
 const _blogReducer = createReducer(ToolsState,
-    on(selectFigure,(state,action)=>{
-        return{
+    on(setFigure,(state, action) => {
+        return {
             ...state,
-            figure: figures.find(figure => figure.index === action.index) || figures[0],
+            figure: figuresArray.find(figure => figure.index === action.index)
+              || figuresArray[0],
         }
     }),
-  on(selectColor,(state,action)=>{
-        return{
-            ...state,
-            color: action.color,
-        }
-    }),
+    on(setColor,(state, action) => {
+          return {
+              ...state,
+              color: action.color,
+          }
+      }),
 )
 
 export function toolsReducer(state: any, action: any) {

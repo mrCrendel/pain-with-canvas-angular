@@ -5,6 +5,6 @@ export const SELECT_FIGURE='SELECT_FIGURE';
 export const SELECT_COLOR='SELECT_COLOR';
 
 
-export const selectFigure=createAction(SELECT_FIGURE,props<{ index: FigureIndexes }>());
-export const selectColor=createAction(SELECT_COLOR,props<{ color: string }>());
+export const setFigure=createAction(SELECT_FIGURE,props<{ index: FigureIndexes }>());
+export const setColor=createAction(SELECT_COLOR,props<{ color: string }>());
 

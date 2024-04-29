@@ -14,6 +14,8 @@ import { FigurePickerComponent } from './components/figure-picker/figure-picker.
 import { ColorButtonComponent } from './components/color-button/color-button.component';
 import { FigureButtonComponent } from './components/figure-button/figure-button.component';
 import {AppStore} from "./store/app.store";
+import { DrawedCardComponent } from './components/drawed-card/drawed-card.component';
+import { DrawedListComponent } from './components/drawed-list/drawed-list.component';
 
 
 @NgModule({
@@ -26,6 +28,8 @@ import {AppStore} from "./store/app.store";
     FigurePickerComponent,
     ColorButtonComponent,
     FigureButtonComponent,
+    DrawedCardComponent,
+    DrawedListComponent,
   ],
   imports: [
     BrowserModule,

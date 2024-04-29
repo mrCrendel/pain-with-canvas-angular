@@ -1,8 +1,12 @@
 import {Component, HostListener, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {Figure, ToolsModel} from "../../store/tools/tools.model";
-import {getColor, getFigure} from "../../store/tools/tools.selectors";
+import {selectColor, selectFigure} from "../../store/tools/tools.selectors";
 import {getDrawFunction} from "../../common/figures";
+import {addDrawedItem} from "../../store/drawed/drawed.actions";
+import {selectDrawedRerender} from "../../store/drawed/drawed.selectors";
+import {DrawedItem} from "../../store/drawed/drawed.model";
+import createId from "../../helpers/createId";
 
 export type Coordinates = { x: number; y: number };
 @Component({
@@ -11,6 +15,7 @@ export type Coordinates = { x: number; y: number };
   styleUrls: ['./canvas.component.scss']
 })
 export class CanvasComponent implements OnInit{
+  private container: HTMLDivElement
   private dragging = false;
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
@@ -19,29 +24,34 @@ export class CanvasComponent implements OnInit{
   private figure: Figure
 
   constructor(private store: Store<{ tools: ToolsModel }>) {
-
   }
 
   ngOnInit() {
     this.initCanvas()
 
-    this.store.select(getFigure).subscribe(res => {
+    this.store.select(selectFigure).subscribe(res => {
       this.figure = res;
     });
-    this.store.select(getColor).subscribe(color => {
+    this.store.select(selectColor).subscribe(color => {
       this.context.strokeStyle = color
-    });
+    })
+    this.store.select(selectDrawedRerender).subscribe((items ) => {
+      this.rerender(items)
+    })
   }
 
   initCanvas() {
-    const container = document.getElementById('canvasContainer');
+    this.container = document.getElementById('canvasContainer') as HTMLDivElement;
+    if (!this.container) {
+      throw new Error('Container element not found!!');
+    }
     this.canvas = document.getElementById('canvas') as HTMLCanvasElement;
     if (!this.canvas) {
       throw new Error('canvas not found');
     }
 
-    this.canvas.width = container?.offsetWidth || 100;
-    this.canvas.height = container?.offsetHeight || 100;
+    this.canvas.width = this.container.offsetWidth;
+    this.canvas.height = this.container.offsetHeight;
 
     const context =  this.canvas.getContext('2d');
     if (!context) {
@@ -89,23 +99,45 @@ export class CanvasComponent implements OnInit{
     this.restoreSnapShot();
     const position = this.getCanvasCoordinates(event);
     this.draw(position);
+
+    this.store.dispatch(addDrawedItem({item: {
+      id: createId(),
+      index: this.figure.index,
+      position: position,
+      dragStartLocation: this.dragStartLocation
+    }}))
   }
 
   draw(position: Coordinates) {
     this.context.lineCap = "round";
-    // this.figure.draw({
-    //   position: position,
-    //   dragStartLocation: this.dragStartLocation,
-    //   context: this.context
-    // })
-    getDrawFunction(this.figure.index)({
+    this.figure.draw({
       position: position,
       dragStartLocation: this.dragStartLocation,
       context: this.context
     })
 
+    // getDrawFunction(this.figure.index)({
+    //   position: position,
+    //   dragStartLocation: this.dragStartLocation,
+    //   context: this.context
+    // })
+
     this.context.globalCompositeOperation = "source-over";
 
     this.context.stroke();
+  }
+
+  rerender(redrawList: DrawedItem[]) {
+    this.context.clearRect(0, 0, this.container.offsetWidth, this.container.offsetHeight); // Clears the canvas
+    console.log("!!! call rerender ", )
+
+    redrawList.forEach(item => {
+      getDrawFunction(item.index)({
+        position: item.position,
+        dragStartLocation: item.dragStartLocation,
+        context: this.context
+      })
+      this.context.stroke();
+    })
   }
 }

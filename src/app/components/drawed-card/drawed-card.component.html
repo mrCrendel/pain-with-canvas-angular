@@ -1,0 +1,7 @@
+<div class="flex items-center mb-2 p-4 rounded hover:bg-gray-300">
+  <img [src]="figure.path" [alt]="figure.title">
+  <span class="ml-4">{{figure.title}}</span>
+  <button class="ml-auto">
+    <img src="assets/svg/delete.svg" (click)="delete()" >
+  </button>
+</div>

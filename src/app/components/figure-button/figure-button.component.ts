@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {selectFigure} from "../../store/tools/tools.actions";
+import {setFigure} from "../../store/tools/tools.actions";
 import {FigureIndexes} from "../../common/figures";
 import {Figure} from "../../store/tools/tools.model";
 
@@ -16,6 +16,6 @@ export class FigureButtonComponent {
   }
 
   onSelectFigure() {
-    this.store.dispatch(selectFigure({ index: this.figure.index }))
+    this.store.dispatch(setFigure({ index: this.figure.index }))
   }
 }

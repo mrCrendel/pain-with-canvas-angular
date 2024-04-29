@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {selectColor, selectFigure} from "../../store/tools/tools.actions";
+import {setColor, setFigure} from "../../store/tools/tools.actions";
 
 @Component({
   selector: 'app-color-button',
@@ -14,6 +14,6 @@ export class ColorButtonComponent {
   }
 
   onSelectColor() {
-    this.store.dispatch(selectColor({ color: this.color }))
+    this.store.dispatch(setColor({ color: this.color }))
   }
 }

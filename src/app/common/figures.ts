@@ -57,23 +57,25 @@ export const getDrawFunction = (index: FigureIndexes): DrawFunction => {
   return methods[index]
 }
 
-export const figures: Figure[] = [
-  {
+export const figures: {[key in FigureIndexes]: Figure} = {
+  [FigureIndexes.CIRCLE]: {
     title: 'Circle',
     path: 'assets/svg/figures/ellipse.svg',
     index: FigureIndexes.CIRCLE,
     draw: methods[FigureIndexes.CIRCLE]
   },
-  {
+  [FigureIndexes.SQUARE]: {
     title: 'Square',
     path: 'assets/svg/figures/square.svg',
     index: FigureIndexes.SQUARE,
     draw: methods[FigureIndexes.SQUARE]
   },
-  {
+  [FigureIndexes.LINE]: {
     title: 'Line',
     path: 'assets/svg/figures/line.svg',
     index: FigureIndexes.LINE,
     draw: methods[FigureIndexes.LINE]
   },
-]
+}
+
+export const figuresArray = Object.values(figures)
