@@ -4,6 +4,8 @@ import {StoreModule} from "@ngrx/store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {EffectsModule} from "@ngrx/effects";
 
+import {AppStore} from "./store/app.store";
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -13,9 +15,9 @@ import { ColorPickerComponent } from './components/color-picker/color-picker.com
 import { FigurePickerComponent } from './components/figure-picker/figure-picker.component';
 import { ColorButtonComponent } from './components/color-button/color-button.component';
 import { FigureButtonComponent } from './components/figure-button/figure-button.component';
-import {AppStore} from "./store/app.store";
 import { DrawedCardComponent } from './components/drawed-card/drawed-card.component';
 import { DrawedListComponent } from './components/drawed-list/drawed-list.component';
+import { CanvasRulerComponent } from './components/canvas-ruler/canvas-ruler.component';
 
 
 @NgModule({
@@ -30,6 +32,7 @@ import { DrawedListComponent } from './components/drawed-list/drawed-list.compon
     FigureButtonComponent,
     DrawedCardComponent,
     DrawedListComponent,
+    CanvasRulerComponent,
   ],
   imports: [
     BrowserModule,

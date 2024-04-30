@@ -1,0 +1,8 @@
+#canvasRuler {
+  position: absolute;
+  width: calc(100% + 32px);
+  height: calc(100% + 32px);
+  top: -16px;
+  left: -16px;
+  pointer-events: none;
+}
